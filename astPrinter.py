@@ -13,7 +13,7 @@ Binary((Literal(2)  + Binary(Literal(5), * , Literal(7))))
 
 上面如何打印出 （+（* 5 7）2)
 """
-from Interpreter import evaluate
+from interpreter import evaluate
 
 
 class Binary():
