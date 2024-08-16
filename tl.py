@@ -1,5 +1,7 @@
 import sys
 
+from interpreter import evaluate
+from myParser import parse
 from scanner import scanTokens
 
 had_error = False
@@ -11,7 +13,10 @@ def runFile():
 
 def run(line):
     tokens = scanTokens(line)
-    print(tokens)
+    expression = parse(tokens)
+    value = evaluate(expression)
+
+    print(value)
 
 
 def runPrompt():

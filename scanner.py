@@ -14,6 +14,10 @@ def isDigit(c):
     return c >= '0' and c <= '9'
 
 
+def match(c, param):
+    pass
+
+
 def scanTokens(source):
     """
     如果是只有+-*/和数字。输入是：2+4*3，变成下面和形式：
@@ -41,6 +45,12 @@ def scanTokens(source):
         elif c == '/':
             tokens.append(("SLASH", c, None))
             current += 1
+        elif c == "(":
+            tokens.append(("LEFT_PAREN", c, None))
+            current += 1
+        elif c == ")":
+            tokens.append(("LEFT_PAREN", c, None))
+            current += 1
         else:
             while isDigit(source[current]):
                 current += 1
@@ -49,7 +59,6 @@ def scanTokens(source):
             text = source[start: current]
             obj = float(text)
             tokens.append(("NUMBER", text, obj))
-
     return tokens
 
 
