@@ -49,7 +49,7 @@ def scanTokens(source):
             tokens.append(("LEFT_PAREN", c, None))
             current += 1
         elif c == ")":
-            tokens.append(("LEFT_PAREN", c, None))
+            tokens.append(("RIGHT_PAREN", c, None))
             current += 1
         else:
             while isDigit(source[current]):

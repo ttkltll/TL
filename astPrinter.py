@@ -28,7 +28,18 @@ class Binary():
             left = evaluate(self.left)
             right = evaluate(self.right)
             return float(left) + float(right)
-
+        elif self.operator == "-":
+            left = evaluate(self.left)
+            right = evaluate(self.right)
+            return float(left) - float(right)
+        elif self.operator == "*":
+            left = evaluate(self.left)
+            right = evaluate(self.right)
+            return float(left) * float(right)
+        elif self.operator == "/":
+            left = evaluate(self.left)
+            right = evaluate(self.right)
+            return float(left) / float(right)
 
 
 class Grouping():
@@ -36,6 +47,9 @@ class Grouping():
         self.expression = expression
     def __repr__(self):
         return f"(group {self.expression})"
+    def evaluate(self):
+        value = evaluate(self.expression)
+        return value
 
 
 class Literal():
@@ -47,13 +61,13 @@ class Literal():
         return self.value
 
 
-
 class Unary():
     def __init__(self, operator, right):
         self.operator = operator
         self.right = right
     def __repr__(self):
         return f"({self.operator} {self.right})"
+
 
 if __name__ == "__main__":
     """
