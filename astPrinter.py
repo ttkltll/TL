@@ -69,6 +69,12 @@ class Unary():
         return f"({self.operator} {self.right})"
 
 
+class PrintStatement():
+    def __init__(self, expression):
+        self.expression = expression
+
+
+
 if __name__ == "__main__":
     """
     2+5*7

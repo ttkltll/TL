@@ -5,7 +5,9 @@ current = 0
 def parse(tokens):
     global current
     current = 0
-    return expression(tokens)
+    statements = []
+    statements.append(expression(tokens))
+    return statements
 
 
 def expression(tokens):

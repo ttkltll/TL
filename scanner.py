@@ -1,9 +1,5 @@
-"""
-class Scanner():
-    def __int__(self, source):
-        self.source = source
-    def scanTokens(self):
-"""
+from myToken import Token
+from tokenType import TokenType
 
 
 def isAtEnd(source, current):
@@ -14,52 +10,68 @@ def isDigit(c):
     return c >= '0' and c <= '9'
 
 
-def match(c, param):
-    pass
+def addToken(token_type: TokenType, c: str, tokens: list[Token], current: int, line: int):
+    tokens.append(Token(token_type, c, None, line))
+    current += 1
+    return tokens, current, line
 
 
 def scanTokens(source):
-    """
-    如果是只有+-*/和数字。输入是：2+4*3，变成下面和形式：
-    NUMBER 2 2.0
-    PLUS + null
-    NUMBER 4 4.0
-    STAR * null
-    NUMBER 3 3.0
-    """
     tokens = []
     start = 0
     current = 0
+    keywords = {
+        "and": TokenType.AND,
+        "class": TokenType.CLASS,
+        "else": TokenType.ELSE,
+        "false": TokenType.FALSE,
+        "for": TokenType.FOR,
+        "fun": TokenType.FUN,
+        "if": TokenType.IF,
+        "nil": TokenType.NIL,
+        "or": TokenType.OR,
+        "print": TokenType.PRINT,
+        "return": TokenType.RETURN,
+        "super": TokenType.SUPER,
+        "this": TokenType.THIS,
+        "true": TokenType.TRUE,
+        "var": TokenType.VAR,
+        "while": TokenType.WHILE,
+    }
+
     while not isAtEnd(source, current):
         start = current
         c = source[current]
+        line = 1
         if c == '+':
-            tokens.append(("PLUS", c, None))
-            current += 1
+            tokens, current, line = addToken(TokenType.PLUS, c, tokens, current, line)
         elif c == '-':
-            tokens.append(("MINUS", c, None))
-            current += 1
+            tokens, current, line = addToken(TokenType.MINUS, c, tokens, current, line)
         elif c == '*':
-            tokens.append(("STAR", c, None))
-            current += 1
+            tokens, current, line = addToken(TokenType.STAR, c, tokens, current, line)
         elif c == '/':
-            tokens.append(("SLASH", c, None))
-            current += 1
-        elif c == "(":
-            tokens.append(("LEFT_PAREN", c, None))
-            current += 1
-        elif c == ")":
-            tokens.append(("RIGHT_PAREN", c, None))
-            current += 1
-        else:
+            tokens, current, line = addToken(TokenType.SLASH, c, tokens, current, line)
+        elif c == '{':
+            tokens, current, line = addToken(TokenType.LEFT_BRACE, c, tokens, current, line)
+        elif c == '}':
+            tokens, current, line = addToken(TokenType.RIGHT_BRACE, c, tokens, current, line)
+        elif c == '(':
+            tokens, current, line = addToken(TokenType.LEFT_PAREN, c, tokens, current, line)
+        elif c == ')':
+            tokens, current, line = addToken(TokenType.RIGHT_PAREN, c, tokens, current, line)
+        elif c == ',':
+            tokens, current, line = addToken(TokenType.COMMA, c, tokens, current, line)
+        elif c == '.':
+            tokens, current, line = addToken(TokenType.DOT, c, tokens, current, line)
+        elif c == ';':
+            tokens, current, line = addToken(TokenType.SEMICOLON, c, tokens, current, line)
+        elif isDigit(c):
             while isDigit(source[current]):
                 current += 1
                 if isAtEnd(source, current):
                     break
             text = source[start: current]
             obj = float(text)
-            tokens.append(("NUMBER", text, obj))
+            tokens.append(Token("NUMBER", text, obj, line))
+
     return tokens
-
-
-

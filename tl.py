@@ -2,13 +2,25 @@ import sys
 
 from interpreter import evaluate
 from myParser import parse
-from scanner import scanTokens
+from scanner3 import scanTokens
 
 had_error = False
 
-def runFile():
-    print('file')
-    pass
+
+import sys
+import subprocess
+
+def runFile(path):
+    try:
+        with open(path, 'rb') as file:
+            code = file.read().decode('utf-8')
+            run(code)
+
+    except FileNotFoundError:
+        print(f"Error: File '{path}' not found.")
+    except Exception as e:
+        print(f"Error: {e}")
+
 
 
 def run(line):
@@ -43,7 +55,7 @@ def main():
     if len(args)>1:
         print("usage:python ")
     elif len(args)==1:
-        runFile()
+        runFile(args[0])
     else:
         runPrompt()
 
