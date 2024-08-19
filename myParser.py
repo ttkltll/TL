@@ -1,4 +1,5 @@
 from astPrinter import Literal, Binary, Unary, Grouping
+from tokenType import TokenType
 
 current = 0
 
@@ -17,9 +18,9 @@ def expression(tokens):
 def term(tokens):
     global current
     expr = factor(tokens)
-    while current < len(tokens) and match(tokens[current], 'MINUS', "PLUS"):
+    while current < len(tokens) and match(tokens[current], TokenType.MINUS, TokenType.PLUS):
         current += 1
-        operator = tokens[current-1][1]
+        operator = tokens[current-1]
         right = factor(tokens)
         expr = Binary(expr, operator, right)
     return expr
@@ -28,9 +29,9 @@ def term(tokens):
 def factor(tokens):
     global current
     expr = unary(tokens)
-    while current < len(tokens) and match(tokens[current], "STAR", "SLASH"):
+    while current < len(tokens) and match(tokens[current], TokenType.STAR, TokenType.SLASH):
         current += 1
-        operator = tokens[current-1][1]
+        operator = tokens[current-1]
         right = unary(tokens)
         expr = Binary(expr, operator, right)
     return expr
@@ -38,9 +39,9 @@ def factor(tokens):
 
 def unary(tokens):
     global current
-    if current < len(tokens) and match(tokens[current], "BANG", "MINUS"):
+    if current < len(tokens) and match(tokens[current], TokenType.BANG, TokenType.MINUS):
         current += 1
-        operator = tokens[current-1][1]
+        operator = tokens[current-1]
         right = unary(tokens)
         return Unary(operator, right)
     return primary(tokens)
@@ -49,20 +50,29 @@ def unary(tokens):
 def primary(tokens):
     global current
     token = tokens[current]
-    if current < len(tokens) and match(token, "NUMBER"):
+    if current < len(tokens) and match(token, TokenType.NUMBER, TokenType.STRING):
         current += 1
-        return Literal(token[2])
-    if current < len(tokens) and match(token, "LEFT_PAREN"):
+        return Literal(token.literal)
+    if current < len(tokens) and match(token, TokenType.TRUE):
+        current += 1
+        return Literal(True)
+    if current < len(tokens) and match(token, TokenType.FALSE):
+        current += 1
+        return Literal(False)
+    if current < len(tokens) and match(token, TokenType.NIL):
+        current += 1
+        return Literal(None)
+    if current < len(tokens) and match(token, TokenType.LEFT_PAREN):
         current += 1
         expr = expression(tokens)
         token = tokens[current]
-        if current < len(tokens) and match(token, "RIGHT_PAREN"):
+        if current < len(tokens) and match(token, TokenType.RIGHT_PAREN):
             current += 1
         return Grouping(expr)
 
 
 def match(token, *types):
     for type in types:
-        if token[0] == type:
+        if token.type == type:
             return True
     return False
