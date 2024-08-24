@@ -26,9 +26,8 @@ def runFile(path):
 def run(line):
     tokens = scanTokens(line)
     expression = parse(tokens)
-    value = evaluate(expression)
+    evaluate(expression)
 
-    print(value)
 
 
 def runPrompt():

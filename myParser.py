@@ -1,4 +1,4 @@
-from astPrinter import Literal, Binary, Unary, Grouping
+from astPrinter import Literal, Binary, Unary, Grouping, PrintStatement
 from tokenType import TokenType
 
 current = 0
@@ -6,9 +6,14 @@ current = 0
 def parse(tokens):
     global current
     current = 0
-    statements = []
-    statements.append(expression(tokens))
-    return statements
+    expr = statement(tokens)
+    return expr
+
+def statement(tokens):
+    if match(tokens[current], TokenType.PRINT):
+        expr = expression(tokens[1: ])
+        expr = PrintStatement(expr)
+    return expr
 
 
 def expression(tokens):

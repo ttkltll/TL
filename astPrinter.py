@@ -14,6 +14,7 @@ Binary((Literal(2)  + Binary(Literal(5), * , Literal(7))))
 上面如何打印出 （+（* 5 7）2)
 """
 from interpreter import evaluate
+from tokenType import TokenType
 
 
 class Binary():
@@ -24,19 +25,19 @@ class Binary():
     def __repr__(self):
         return f"({self.operator} {self.left} {self.right})"
     def evaluate(self):
-        if self.operator == "+":
+        if self.operator.type == TokenType.PLUS:
             left = evaluate(self.left)
             right = evaluate(self.right)
             return float(left) + float(right)
-        elif self.operator == "-":
+        elif self.operator.type == TokenType.MINUS:
             left = evaluate(self.left)
             right = evaluate(self.right)
             return float(left) - float(right)
-        elif self.operator == "*":
+        elif self.operator.type == TokenType.STAR:
             left = evaluate(self.left)
             right = evaluate(self.right)
             return float(left) * float(right)
-        elif self.operator == "/":
+        elif self.operator.type == TokenType.SLASH:
             left = evaluate(self.left)
             right = evaluate(self.right)
             return float(left) / float(right)
@@ -68,10 +69,15 @@ class Unary():
     def __repr__(self):
         return f"({self.operator} {self.right})"
 
-
+### 以下是定义语句
 class PrintStatement():
     def __init__(self, expression):
         self.expression = expression
+    def evaluate(self):
+        value = evaluate(self.expression)
+        print(value)
+
+
 
 
 
