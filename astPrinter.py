@@ -25,21 +25,19 @@ class Binary():
     def __repr__(self):
         return f"({self.operator} {self.left} {self.right})"
     def evaluate(self):
+        left = evaluate(self.left)
+        right = evaluate(self.right)
         if self.operator.type == TokenType.PLUS:
-            left = evaluate(self.left)
-            right = evaluate(self.right)
-            return float(left) + float(right)
+            if isinstance(left, float) and isinstance(right, float):
+                return float(left) + float(right)
+            elif isinstance(left, str) and isinstance(right, str):
+                return str(left) + str(right)
+
         elif self.operator.type == TokenType.MINUS:
-            left = evaluate(self.left)
-            right = evaluate(self.right)
             return float(left) - float(right)
         elif self.operator.type == TokenType.STAR:
-            left = evaluate(self.left)
-            right = evaluate(self.right)
             return float(left) * float(right)
         elif self.operator.type == TokenType.SLASH:
-            left = evaluate(self.left)
-            right = evaluate(self.right)
             return float(left) / float(right)
 
 
