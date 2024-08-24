@@ -1,1 +1,3 @@
-print "a" + "b"
+print "ac" + "b";
+print "c" + "d";
+print 5

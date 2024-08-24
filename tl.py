@@ -4,11 +4,6 @@ from interpreter import evaluate
 from myParser import parse
 from scanner3 import scanTokens
 
-had_error = False
-
-
-import sys
-import subprocess
 
 def runFile(path):
     try:
@@ -22,11 +17,30 @@ def runFile(path):
         print(f"Error: {e}")
 
 
+def split_list_by_separator(original_list, delimiter=";"):
+    # 存储子列表的结果
+    result = []
+    current_sublist = []
+
+    # 遍历原始列表
+    for item in original_list:
+        if item.lexeme == delimiter:
+            result.append(current_sublist)
+            current_sublist = []
+        else:
+            current_sublist.append(item)
+
+    # 添加最后一个子列表
+    result.append(current_sublist)
+    return result
+
 
 def run(line):
     tokens = scanTokens(line)
-    expression = parse(tokens)
-    evaluate(expression)
+    tokens_splited = split_list_by_separator(tokens)
+    for statement_tokens in tokens_splited:
+        expression = parse(statement_tokens)
+        evaluate(expression)
 
 
 

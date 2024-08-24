@@ -32,7 +32,6 @@ class Binary():
                 return float(left) + float(right)
             elif isinstance(left, str) and isinstance(right, str):
                 return str(left) + str(right)
-
         elif self.operator.type == TokenType.MINUS:
             return float(left) - float(right)
         elif self.operator.type == TokenType.STAR:
