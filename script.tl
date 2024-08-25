@@ -1,3 +1,9 @@
-var number;
-number = 5 + 6;
-print number;
+
+var a;
+a = 4;
+{
+var a;
+a = 4;
+print a;
+}
+print a;
