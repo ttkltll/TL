@@ -1,4 +1,5 @@
-from astPrinter import Literal, Binary, Unary, Grouping, PrintStatement
+from astPrinter import Literal, Binary, Unary, Grouping, PrintStatement, DeclareStatement, AssignStatement
+from environment import bind_dict
 from tokenType import TokenType
 
 current = 0
@@ -9,10 +10,18 @@ def parse(tokens):
     expr = statement(tokens)
     return expr
 
+
 def statement(tokens):
     if match(tokens[current], TokenType.PRINT):
-        expr = expression(tokens[1: ])
+        expr = expression(tokens[1:])
         expr = PrintStatement(expr)
+    elif match(tokens[current], TokenType.VAR):
+        expr = DeclareStatement(tokens[1:][0])
+    elif match(tokens[current], TokenType.IDENTIFIER):
+        name = tokens[0].lexeme
+        expr = expression(tokens[2:])
+        expr = AssignStatement(name, expr)
+
     return expr
 
 
@@ -67,6 +76,10 @@ def primary(tokens):
     if current < len(tokens) and match(token, TokenType.NIL):
         current += 1
         return Literal(None)
+    if current < len(tokens) and match(token, TokenType.IDENTIFIER):
+        current += 1
+        value = bind_dict[token.lexeme]
+        return Literal(value)
     if current < len(tokens) and match(token, TokenType.LEFT_PAREN):
         current += 1
         expr = expression(tokens)
