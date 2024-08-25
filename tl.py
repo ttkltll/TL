@@ -38,7 +38,9 @@ def split_list_by_separator(original_list, delimiter=";"):
 def run(line):
     tokens = scanTokens(line)
     tokens_splited = split_list_by_separator(tokens)
-    for statement_tokens in tokens_splited:
+    for num, statement_tokens in enumerate(tokens_splited):
+        if num == len(tokens_splited)-1:
+            break
         expression = parse(statement_tokens)
         evaluate(expression)
 

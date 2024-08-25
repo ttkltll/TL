@@ -13,6 +13,7 @@ Binary((Literal(2)  + Binary(Literal(5), * , Literal(7))))
 
 上面如何打印出 （+（* 5 7）2)
 """
+from environment import bind_dict
 from interpreter import evaluate
 from tokenType import TokenType
 
@@ -74,6 +75,21 @@ class PrintStatement():
         value = evaluate(self.expression)
         print(value)
 
+
+class DeclareStatement():
+    def __init__(self, name):
+        self.name = name.lexeme
+    def evaluate(self):
+        bind_dict[self.name] = None
+
+
+class AssignStatement():
+    def __init__(self, name, expression):
+        self.name = name
+        self.expression = expression
+    def evaluate(self):
+        value = evaluate(self.expression)
+        bind_dict[self.name] = value
 
 
 

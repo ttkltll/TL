@@ -1,3 +1,3 @@
-print "ac" + "b";
-print "c" + "d";
-print 5
+var number;
+number = 5 + 6;
+print number;
